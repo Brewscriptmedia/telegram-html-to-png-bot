@@ -1,0 +1,10 @@
+{
+  "name": "html-to-png-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "telegraf": "^4.12.2",
+    "puppeteer": "^21.3.8",
+    "node-fetch": "^3.3.2"
+  }
+}
