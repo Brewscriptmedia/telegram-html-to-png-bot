@@ -6,7 +6,9 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 
 bot.on('document', async (ctx) => {
   const file = await ctx.telegram.getFile(ctx.message.document.file_id);
-  const fileUrl = https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path};
+
+  // ✅ FIX 1
+  const fileUrl = `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file.file_path}`;
 
   const res = await fetch(fileUrl);
   const html = await res.text();
@@ -14,7 +16,7 @@ bot.on('document', async (ctx) => {
   fs.writeFileSync('input.html', html);
 
   const browser = await puppeteer.launch({
-    args: ['--no-sandbox']
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
 
   const page = await browser.newPage();
@@ -25,7 +27,8 @@ bot.on('document', async (ctx) => {
     deviceScaleFactor: 2
   });
 
-  await page.goto(file://${process.cwd()}/input.html, {
+  // ✅ FIX 2
+  await page.goto(`file://${process.cwd()}/input.html`, {
     waitUntil: 'networkidle0'
   });
 
